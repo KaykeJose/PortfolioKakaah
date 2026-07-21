@@ -62,7 +62,21 @@
   .sec-sub{color:var(--ink-dim);font-size:16px;max-width:520px;line-height:1.65;}
 
   /* ============ HERO ============ */
-  header{min-height:100vh;display:flex;align-items:center;padding-top:110px;padding-bottom:60px;}
+  header{min-height:100vh;display:flex;align-items:center;padding-top:110px;padding-bottom:60px;position:relative;overflow:hidden;}
+  #hero-blob{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, transparent 46%, rgba(0,0,0,.4) 58%, #000 72%, #000 100%);
+    mask-image:linear-gradient(to right, transparent 0%, transparent 46%, rgba(0,0,0,.4) 58%, #000 72%, #000 100%);
+  }
+  #hero-blob canvas{display:block;}
+  #coin-shadow{
+    position:absolute;z-index:0;pointer-events:none;
+    right:6%;top:50%;width:min(30vw,340px);height:min(30vw,340px);
+    transform:translateY(-50%);
+    background:radial-gradient(closest-side, rgba(21,19,17,0.16), transparent 72%);
+    filter:blur(2px);
+  }
+  @media(max-width:860px){ #coin-shadow{display:none;} }
   .hero-badge{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:999px;padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.5px;margin-bottom:26px;background:var(--paper);}
   .hero-badge .lv1{background:var(--red);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;}
   .hero-name{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(42px,7.4vw,84px);line-height:1;letter-spacing:-1px;margin-bottom:20px;max-width:820px;}
@@ -76,7 +90,10 @@
   .btn-ghost:hover{background:var(--ink);color:#fff;}
   .hero-stats{display:flex;gap:0;border-top:2px solid var(--ink);padding-top:24px;flex-wrap:wrap;}
   .hstat{flex:1;min-width:120px;padding-right:16px;}
-  .hstat .num{font-family:'Fraunces',serif;font-size:32px;font-weight:600;}
+  .hstat .num{font-family:'Fraunces',serif;font-size:32px;font-weight:600;position:relative;display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+  .hstat .num::after{content:'';position:absolute;left:0;bottom:-5px;height:3px;width:0;border-radius:2px;background:currentColor;transition:width .4s ease;}
+  .hstat:hover .num{transform:translateY(-4px) scale(1.1);}
+  .hstat:hover .num::after{width:100%;}
   .hstat:nth-child(1) .num{color:var(--red);}
   .hstat:nth-child(2) .num{color:var(--purple);}
   .hstat:nth-child(3) .num{color:var(--green);}
@@ -113,11 +130,55 @@
 
   /* mockups */
   .mockup{border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:8px 10px 0 var(--ink);background:var(--paper);}
-  .mockup-video{aspect-ratio:16/10;background:linear-gradient(135deg,#1a1a1a,#2c1414);position:relative;display:flex;align-items:center;justify-content:center;}
-  .mockup-video .playbtn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.12);border:2px solid #fff;display:flex;align-items:center;justify-content:center;}
-  .mockup-video .playbtn svg{width:18px;fill:#fff;margin-left:2px;}
-  .mockup-video .scrub{position:absolute;bottom:16px;left:16px;right:16px;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;}
-  .mockup-video .scrub .fill{width:44%;height:100%;background:var(--red);border-radius:2px;}
+
+  /* ============ CUSTOM VIDEO PLAYER (Fase 1) ============ */
+  .vplayer{position:relative;width:100%;height:100%;cursor:pointer;background:#0c0c0c;}
+  .vplayer video{width:100%;height:100%;object-fit:cover;display:block;}
+  .vplayer::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,0.15) 0%,transparent 22%,transparent 72%,rgba(0,0,0,0.55) 100%);
+    opacity:1;transition:opacity .35s;
+  }
+  .vplayer.playing::before{opacity:0.55;}
+  .vplayer-toggle{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:58px;height:58px;border-radius:50%;background:rgba(21,19,17,0.5);
+    border:2px solid #fff;display:flex;align-items:center;justify-content:center;
+    transition:opacity .3s,transform .25s;backdrop-filter:blur(3px);
+  }
+  .vplayer:hover .vplayer-toggle{transform:translate(-50%,-50%) scale(1.06);}
+  .vplayer-toggle svg{width:16px;height:16px;fill:#fff;margin-left:2px;}
+  .vplayer-toggle .ico-pause{display:none;margin-left:0;}
+  .vplayer.playing .vplayer-toggle{opacity:0;}
+  .vplayer.playing:hover .vplayer-toggle{opacity:1;}
+  .vplayer.playing .vplayer-toggle .ico-play{display:none;}
+  .vplayer.playing .vplayer-toggle .ico-pause{display:block;}
+  .vplayer-mute{
+    position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;
+    background:rgba(21,19,17,0.5);border:1.5px solid rgba(255,255,255,0.7);
+    display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);
+    z-index:3;transition:background .2s;
+  }
+  .vplayer-mute:hover{background:rgba(21,19,17,0.75);}
+  .vplayer-mute svg{width:14px;height:14px;fill:#fff;}
+  .vplayer-mute .ico-muted{display:none;}
+  .vplayer.muted .vplayer-mute .ico-on{display:none;}
+  .vplayer.muted .vplayer-mute .ico-muted{display:block;}
+  .vplayer-scrub{
+    position:absolute;bottom:14px;left:14px;right:14px;height:4px;
+    background:rgba(255,255,255,0.28);border-radius:3px;z-index:3;
+    display:flex;align-items:center;
+  }
+  .vplayer-scrub::before{
+    content:'';position:absolute;inset:-8px 0;
+  }
+  .vplayer-fill{position:relative;height:100%;width:0%;background:var(--red);border-radius:3px;box-shadow:0 0 6px rgba(179,36,30,0.6);}
+  .vplayer-fill::after{
+    content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);
+    width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--red);
+    opacity:0;transition:opacity .2s;
+  }
+  .vplayer:hover .vplayer-fill::after{opacity:1;}
   .mockup-design{aspect-ratio:16/10;padding:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:var(--paper);}
   .mockup-design .swatch{border-radius:8px;}
   .mockup-design .swatch:nth-child(1){background:var(--red);}
@@ -126,6 +187,24 @@
   .mockup-design .swatch:nth-child(4){background:var(--gold);}
   .mockup-design .swatch:nth-child(5){background:#1a1a1a;}
   .mockup-design .swatch:nth-child(6){background:#f1ede3;border:1px solid var(--line);}
+
+  /* ============ MOODBOARD CARDS (Fase 2) ============ */
+  .id-card{
+    opacity:0;border-radius:10px;overflow:hidden;box-shadow:0 8px 18px rgba(21,19,17,0.16);
+    transform:translateY(18px) rotate(var(--r,0deg)) scale(.95);
+    transition:opacity .65s ease, transform .65s cubic-bezier(.22,.7,.3,1), box-shadow .3s;
+    transition-delay:var(--d,0s);cursor:pointer;
+  }
+  .reveal.in .id-card{opacity:1;transform:translateY(0) rotate(var(--r,0deg)) scale(1);}
+  .id-card:hover{
+    transform:translateY(-6px) rotate(0deg) scale(1.03) !important;
+    box-shadow:0 18px 32px rgba(21,19,17,0.24);z-index:2;position:relative;transition-delay:0s !important;
+  }
+  .id-card img{width:100%;height:100%;display:block;object-fit:cover;}
+  @media(prefers-reduced-motion:reduce){
+    .id-card{opacity:1;transform:none;transition:box-shadow .3s;}
+    .id-card:hover{transform:none !important;}
+  }
   .mockup-site{aspect-ratio:16/10;background:var(--paper);}
   .mockup-site .bar{height:26px;background:#eee7d8;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 10px;}
   .mockup-site .bar span{width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
@@ -191,9 +270,11 @@
     .ach-grid{grid-template-columns:1fr;}
     #level-pill{padding:6px 12px 6px 8px;font-size:11px;}
     #level-pill span.lv-text{display:none;}
+    #hero-blob{display:none;}
   }
   @media(prefers-reduced-motion:reduce){
     *{animation:none !important;transition:none !important;}
+    #hero-blob{display:none;}
   }
 </style>
 </head>
@@ -219,6 +300,8 @@
 </nav>
 
 <header id="hero" data-level="1" data-label="Nível 1 — Chegada">
+  <div id="coin-shadow"></div>
+  <div id="hero-blob"></div>
   <div class="wrap">
     <div class="hero-badge"><span class="lv1">1</span>NÍVEL 1 DESBLOQUEADO — VOCÊ CHEGOU</div>
     <h1 class="hero-name">Vídeo, design e site — <em>uma entrega só, sem enrolação.</em></h1>
@@ -230,10 +313,10 @@
       <a href="#conquistas" class="btn-ghost">Ver cases</a>
     </div>
     <div class="hero-stats reveal">
-      <div class="hstat"><div class="num">+5</div><div class="label">Anos de experiência</div></div>
-      <div class="hstat"><div class="num">+30</div><div class="label">Projetos entregues</div></div>
-      <div class="hstat"><div class="num">3</div><div class="label">Frentes de atuação</div></div>
-      <div class="hstat"><div class="num">6+</div><div class="label">Clientes atendidos</div></div>
+      <div class="hstat"><div class="num" data-value="5" data-prefix="+">+5</div><div class="label">Anos de experiência</div></div>
+      <div class="hstat"><div class="num" data-value="30" data-prefix="+">+30</div><div class="label">Projetos entregues</div></div>
+      <div class="hstat"><div class="num" data-value="3">3</div><div class="label">Frentes de atuação</div></div>
+      <div class="hstat"><div class="num" data-value="6" data-suffix="+">6+</div><div class="label">Clientes atendidos</div></div>
     </div>
   </div>
 </header>
@@ -288,7 +371,20 @@
     </div>
     <div class="reveal">
       <div class="mockup" style="aspect-ratio:9/16;max-width:280px;margin:0 auto;background:#000;">
-        <video src="fase1-edicao.mp4" style="width:100%;height:100%;object-fit:cover;display:block;" controls muted playsinline loop></video>
+        <div class="vplayer" id="fase1-player">
+          <video id="fase1-video" src="fase1-edicao.mp4" muted playsinline loop preload="metadata"></video>
+          <button class="vplayer-mute" id="fase1-mute" aria-label="Ativar som" type="button">
+            <svg class="ico-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 12c0-1.77-1-3.29-2.5-4.03v8.06c1.5-.74 2.5-2.26 2.5-4.03z"/></svg>
+            <svg class="ico-muted" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M19 7l-5 5m0-5l5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          </button>
+          <div class="vplayer-toggle" aria-hidden="true">
+            <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </div>
+          <div class="vplayer-scrub" id="fase1-scrub">
+            <div class="vplayer-fill" id="fase1-fill"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -310,9 +406,9 @@
     </div>
     <div class="reveal">
       <div class="mockup" style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--paper);">
-        <img src="img/identidade-visual-silene-sampaio.png" alt="Identidade visual Silene Sampaio" style="width:100%;border-radius:10px;object-fit:cover;aspect-ratio:1/1;">
-        <img src="img/identidade-visual-s-tio-beija-flor.png" alt="Identidade visual Sítio Beija-flor" style="width:100%;border-radius:10px;object-fit:cover;aspect-ratio:1/1;">
-        <img src="img/identidade-visual-israel-mota.png" alt="Identidade visual Israel Mota" style="width:100%;border-radius:10px;object-fit:cover;aspect-ratio:1/1;grid-column:span 2;">
+        <div class="id-card" style="--r:-2.5deg;--d:0s;aspect-ratio:1/1;"><img src="img/identidade-visual-silene-sampaio.png" alt="Identidade visual Silene Sampaio"></div>
+        <div class="id-card" style="--r:2deg;--d:.12s;aspect-ratio:1/1;"><img src="img/identidade-visual-s-tio-beija-flor.png" alt="Identidade visual Sítio Beija-flor"></div>
+        <div class="id-card" style="--r:-1deg;--d:.24s;aspect-ratio:1/1;grid-column:span 2;"><img src="img/identidade-visual-israel-mota.png" alt="Identidade visual Israel Mota"></div>
       </div>
     </div>
   </div>
@@ -434,7 +530,241 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+  // ---------- HERO STATS COUNT-UP (a cada hover) ----------
+  (function(){
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.hstat .num').forEach(el => {
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const target = parseInt(el.dataset.value, 10);
+      if(isNaN(target)) return;
+      let raf;
+      el.parentElement.addEventListener('mouseenter', () => {
+        if(reduced) return;
+        cancelAnimationFrame(raf);
+        const start = performance.now();
+        const dur = 480;
+        function step(now){
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + Math.round(target * eased) + suffix;
+          if(p < 1) raf = requestAnimationFrame(step);
+        }
+        raf = requestAnimationFrame(step);
+      });
+    });
+  })();
+
+  // ---------- CUSTOM VIDEO PLAYER (Fase 1) ----------
+  (function(){
+    const wrap = document.getElementById('fase1-player');
+    const video = document.getElementById('fase1-video');
+    const scrub = document.getElementById('fase1-scrub');
+    const fill = document.getElementById('fase1-fill');
+    const muteBtn = document.getElementById('fase1-mute');
+    if(!wrap || !video) return;
+
+    wrap.addEventListener('click', (e) => {
+      if(e.target.closest('.vplayer-scrub') || e.target.closest('.vplayer-mute')) return;
+      video.paused ? video.play() : video.pause();
+    });
+    video.addEventListener('play', () => wrap.classList.add('playing'));
+    video.addEventListener('pause', () => wrap.classList.remove('playing'));
+    video.addEventListener('timeupdate', () => {
+      if(video.duration) fill.style.width = (video.currentTime / video.duration * 100) + '%';
+    });
+
+    function seek(clientX){
+      const rect = scrub.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+      if(video.duration) video.currentTime = pct * video.duration;
+    }
+    let dragging = false;
+    scrub.addEventListener('mousedown', e => { dragging = true; seek(e.clientX); e.stopPropagation(); });
+    window.addEventListener('mousemove', e => { if(dragging) seek(e.clientX); });
+    window.addEventListener('mouseup', () => dragging = false);
+    scrub.addEventListener('touchstart', e => { dragging = true; seek(e.touches[0].clientX); }, {passive:true});
+    scrub.addEventListener('touchmove', e => { if(dragging) seek(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('touchend', () => dragging = false);
+
+    muteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      wrap.classList.toggle('muted', video.muted);
+    });
+    wrap.classList.toggle('muted', video.muted);
+
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if(en.isIntersecting) video.play().catch(()=>{});
+          else video.pause();
+        });
+      }, {threshold:0.5});
+      io.observe(wrap);
+    }
+  })();
+
+  // ---------- HERO COIN 3D (flip no scroll + tilt no cursor) ----------
+  (function(){
+    const container = document.getElementById('hero-blob');
+    const header = document.getElementById('hero');
+    if(!container || !window.THREE) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if(window.innerWidth < 861) return;
+
+    let width = header.clientWidth;
+    let height = header.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.z = 6.4;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // --- face texture (branded medallion, drawn once on a canvas) ---
+    function makeFaceTexture(onReady){
+      const c = document.createElement('canvas');
+      c.width = c.height = 512;
+      const ctx = c.getContext('2d');
+
+      function drawBase(){
+        const grad = ctx.createRadialGradient(200,180,40, 256,256,260);
+        grad.addColorStop(0, '#c9342c');
+        grad.addColorStop(1, '#8c1a16');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(256,256,256,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle = '#E9C878';
+        ctx.lineWidth = 12;
+        ctx.beginPath(); ctx.arc(256,256,236,0,Math.PI*2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(140,26,22,0.35)';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(256,256,204,0,Math.PI*2); ctx.stroke();
+      }
+      drawBase();
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 8;
+
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function(){
+        drawBase();
+        // fit logo inside the inner medallion ring, centered
+        const maxD = 300;
+        const scale = Math.min(maxD / img.width, maxD / img.height);
+        const w = img.width * scale, h = img.height * scale;
+        const x = 256 - w/2, y = 256 - h/2;
+        ctx.drawImage(img, x, y, w, h);
+        // recolor the logo to gold so it reads clearly on the red face
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = '#F1DDA6';
+        ctx.fillRect(x, y, w, h);
+        ctx.globalCompositeOperation = 'source-over';
+        tex.needsUpdate = true;
+        if(onReady) onReady();
+      };
+      img.onerror = function(){
+        // keep the plain medallion if the logo file isn't found
+        console.warn('Logo não encontrado em img/logo-moeda.png — usando moeda lisa.');
+      };
+      img.src = 'img/logo-moeda.png';
+
+      return tex;
+    }
+
+    const coin = new THREE.Group();
+    coin.position.set(2.35, -0.25, 0);
+    scene.add(coin);
+
+    const RADIUS = 1.5, DEPTH = 0.22;
+
+    const sideMat = new THREE.MeshStandardMaterial({ color: 0x8c1a16, roughness: 0.3, metalness: 0.85 });
+    const faceMat = new THREE.MeshStandardMaterial({ map: makeFaceTexture(), roughness: 0.36, metalness: 0.6 });
+    const backMat = new THREE.MeshStandardMaterial({ color: 0x9c221d, roughness: 0.3, metalness: 0.88 });
+
+    const body = new THREE.Mesh(
+      new THREE.CylinderGeometry(RADIUS, RADIUS, DEPTH, 72, 1, false),
+      [sideMat, faceMat, backMat]
+    );
+    coin.add(body);
+
+    const rim = new THREE.Mesh(
+      new THREE.TorusGeometry(RADIUS, 0.05, 20, 96),
+      new THREE.MeshStandardMaterial({ color: 0xd9a63e, roughness: 0.22, metalness: 0.95 })
+    );
+    rim.rotation.x = Math.PI / 2;
+    coin.add(rim);
+
+    // orient so a flat face reads first, like a medallion facing the viewer
+    coin.rotation.x = Math.PI / 2;
+    coin.rotation.z = 0.18;
+
+    scene.add(new THREE.AmbientLight(0xfff3e0, 0.55));
+    const key = new THREE.PointLight(0xffffff, 1.3);
+    key.position.set(4, 3.5, 5);
+    scene.add(key);
+    const warm = new THREE.PointLight(0xb3811f, 0.9);
+    warm.position.set(-2.5, -1.5, 3);
+    scene.add(warm);
+    const rim2 = new THREE.PointLight(0xffffff, 0.5);
+    rim2.position.set(0, -3, -3);
+    scene.add(rim2);
+
+    let mouseX = 0, mouseY = 0;
+    let tiltX = 0, tiltZ = 0;
+    let scrollSpin = 0, targetScrollSpin = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = header.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+
+    function readScrollProgress(){
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      return max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+    }
+    window.addEventListener('scroll', () => {
+      targetScrollSpin = readScrollProgress() * Math.PI * 5.5;
+    }, { passive: true });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      tiltX += (mouseY * 0.22 - tiltX) * 0.05;
+      tiltZ += (mouseX * -0.22 - tiltZ) * 0.05;
+      scrollSpin += (targetScrollSpin - scrollSpin) * 0.06;
+
+      coin.rotation.y = t * 0.1 + scrollSpin;
+      coin.rotation.x = Math.PI / 2 + tiltX;
+      coin.rotation.z = 0.18 + tiltZ;
+      coin.position.y = -0.25 + Math.sin(t * 0.6) * 0.08;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth < 861){ container.style.display = 'none'; return; }
+      container.style.display = 'block';
+      width = header.clientWidth;
+      height = header.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+  })();
+
   // ---------- XP BAR ----------
   const fill = document.getElementById('xpbar-fill');
   const track = document.getElementById('xpbar-track');
