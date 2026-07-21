@@ -661,26 +661,37 @@
           const w = img.width * scale, h = img.height * scale;
           const x = 256 - w/2, y = 256 - h/2;
 
-          // draw the logo on an offscreen canvas first, so we can
-          // strip any light/white background even if the PNG wasn't
-          // exported with real transparency
+          // draw the logo on an offscreen canvas first
           const off = document.createElement('canvas');
           off.width = Math.ceil(w); off.height = Math.ceil(h);
           const offCtx = off.getContext('2d');
           offCtx.drawImage(img, 0, 0, off.width, off.height);
           const data = offCtx.getImageData(0, 0, off.width, off.height);
           const px = data.data;
-          for(let i = 0; i < px.length; i += 4){
-            const r = px[i], g = px[i+1], b = px[i+2];
-            const isLight = r > 210 && g > 205 && b > 195;
-            if(isLight || px[i+3] < 10){
-              px[i+3] = 0; // strip light background / already-transparent px
-            } else {
-              // recolor the linework to near-black so it reads on the red face
-              px[i] = 21; px[i+1] = 19; px[i+2] = 17;
-            }
+
+          // does the file already carry real transparency? if so, trust
+          // its own colors completely (e.g. a logo you've already
+          // colored gold) — only fall back to auto chroma-key + recolor
+          // for flattened/opaque exports that have no alpha of their own
+          let minAlpha = 255;
+          for(let i = 3; i < px.length; i += 4){
+            if(px[i] < minAlpha){ minAlpha = px[i]; if(minAlpha === 0) break; }
           }
-          offCtx.putImageData(data, 0, 0);
+          const hasRealAlpha = minAlpha < 250;
+
+          if(!hasRealAlpha){
+            for(let i = 0; i < px.length; i += 4){
+              const r = px[i], g = px[i+1], b = px[i+2];
+              const isLight = r > 210 && g > 205 && b > 195;
+              if(isLight){
+                px[i+3] = 0; // strip light background
+              } else {
+                px[i] = 233; px[i+1] = 200; px[i+2] = 120; // fallback gold recolor
+              }
+            }
+            offCtx.putImageData(data, 0, 0);
+          }
+
           ctx.drawImage(off, x, y, w, h);
           tex.needsUpdate = true;
           if(onReady) onReady();
@@ -704,7 +715,7 @@
     const RADIUS = 1.5, DEPTH = 0.22;
 
     const sideMat = new THREE.MeshStandardMaterial({ color: 0x8c1a16, roughness: 0.3, metalness: 0.85 });
-    const faceMat = new THREE.MeshStandardMaterial({ map: makeFaceTexture(), roughness: 0.36, metalness: 0.6 });
+    const faceMat = new THREE.MeshStandardMaterial({ map: makeFaceTexture(), roughness: 0.36, metalness: 0.22 });
     const backMat = new THREE.MeshStandardMaterial({ color: 0x9c221d, roughness: 0.3, metalness: 0.88 });
 
     const body = new THREE.Mesh(
