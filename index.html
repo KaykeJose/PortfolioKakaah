@@ -652,22 +652,41 @@
       tex.anisotropy = 8;
 
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       img.onload = function(){
-        drawBase();
-        // fit logo inside the inner medallion ring, centered
-        const maxD = 300;
-        const scale = Math.min(maxD / img.width, maxD / img.height);
-        const w = img.width * scale, h = img.height * scale;
-        const x = 256 - w/2, y = 256 - h/2;
-        ctx.drawImage(img, x, y, w, h);
-        // recolor the logo to gold so it reads clearly on the red face
-        ctx.globalCompositeOperation = 'source-atop';
-        ctx.fillStyle = '#F1DDA6';
-        ctx.fillRect(x, y, w, h);
-        ctx.globalCompositeOperation = 'source-over';
-        tex.needsUpdate = true;
-        if(onReady) onReady();
+        try {
+          drawBase();
+          // fit logo inside the inner medallion ring, centered
+          const maxD = 300;
+          const scale = Math.min(maxD / img.width, maxD / img.height);
+          const w = img.width * scale, h = img.height * scale;
+          const x = 256 - w/2, y = 256 - h/2;
+
+          // draw the logo on an offscreen canvas first, so we can
+          // strip any light/white background even if the PNG wasn't
+          // exported with real transparency
+          const off = document.createElement('canvas');
+          off.width = Math.ceil(w); off.height = Math.ceil(h);
+          const offCtx = off.getContext('2d');
+          offCtx.drawImage(img, 0, 0, off.width, off.height);
+          const data = offCtx.getImageData(0, 0, off.width, off.height);
+          const px = data.data;
+          for(let i = 0; i < px.length; i += 4){
+            const r = px[i], g = px[i+1], b = px[i+2];
+            const isLight = r > 210 && g > 205 && b > 195;
+            if(isLight || px[i+3] < 10){
+              px[i+3] = 0; // strip light background / already-transparent px
+            } else {
+              // recolor the linework to near-black so it reads on the red face
+              px[i] = 21; px[i+1] = 19; px[i+2] = 17;
+            }
+          }
+          offCtx.putImageData(data, 0, 0);
+          ctx.drawImage(off, x, y, w, h);
+          tex.needsUpdate = true;
+          if(onReady) onReady();
+        } catch(err){
+          console.warn('Não consegui compor a logo na moeda:', err);
+        }
       };
       img.onerror = function(){
         // keep the plain medallion if the logo file isn't found
