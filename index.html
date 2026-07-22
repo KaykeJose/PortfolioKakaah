@@ -627,7 +627,7 @@
   if(window.innerWidth >= 861 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     const threeScript = document.createElement('script');
     threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    threeScript.onload = initHeroCoin;
+    threeScript.onload = function(){ initHeroCoin(); };
     document.body.appendChild(threeScript);
   }
 </script>
