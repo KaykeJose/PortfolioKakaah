@@ -353,7 +353,7 @@
 
 <nav>
   <div class="wrap">
-    <div class="logo" style="display:flex;align-items:center;gap:8px;"><img src="img/logo-kayke-jos.png" alt="Logo Kayke José" style="height:26px;width:auto;display:block;">Kayke José</div>
+    <div class="logo" style="display:flex;align-items:center;gap:8px;"><img src="img/logo-kayke-jos.png" alt="Logo Kayke José" width="26" height="26" decoding="async" style="height:26px;width:auto;display:block;">Kayke José</div>
     <ul class="navlinks">
       <li><a href="#sobre">Sobre</a></li>
       <li><a href="#fase1">Vídeo</a></li>
@@ -389,9 +389,7 @@
 
 <section id="reel" data-level="2" data-label="Nível 2 — Making of">
   <div class="reel-video">
-    <video autoplay muted loop playsinline poster="img/making-off-poster.jpg">
-      <source src="making-off.mp4" type="video/mp4">
-    </video>
+    <video id="reel-video" muted loop playsinline preload="none" poster="img/making-off-poster.jpg" data-src="making-off.mp4"></video>
     <div class="reel-fade"></div>
   </div>
   <div class="wrap">
@@ -405,7 +403,7 @@
 
 <section id="sobre" data-level="3" data-label="Nível 3 — Quem é Kayke">
   <div class="wrap sobre-grid">
-    <div class="sobre-photo reveal" style="background:none;padding:0;overflow:hidden;border-color:var(--red);box-shadow:8px 10px 0 var(--red);"><img src="img/kayke-jos.jpg" alt="Kayke José" style="width:100%;height:100%;object-fit:cover;border-radius:18px;"></div>
+    <div class="sobre-photo reveal" style="background:none;padding:0;overflow:hidden;border-color:var(--red);box-shadow:8px 10px 0 var(--red);"><img src="img/kayke-jos.jpg" alt="Kayke José" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;border-radius:18px;"></div>
     <div class="reveal">
       <div class="eyebrow">Sobre mim</div>
       <h2 class="sec-title">Um freela, <em>três entregas</em></h2>
@@ -488,9 +486,9 @@
     </div>
     <div class="reveal">
       <div class="mockup" style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--paper);">
-        <div class="id-card" style="--r:-2.5deg;--d:0s;aspect-ratio:1/1;"><img src="img/identidade-visual-silene-sampaio.png" alt="Identidade visual Silene Sampaio"></div>
-        <div class="id-card" style="--r:2deg;--d:.12s;aspect-ratio:1/1;"><img src="img/identidade-visual-s-tio-beija-flor.png" alt="Identidade visual Sítio Beija-flor"></div>
-        <div class="id-card" style="--r:-1deg;--d:.24s;aspect-ratio:1/1;grid-column:span 2;"><img src="img/identidade-visual-israel-mota.png" alt="Identidade visual Israel Mota"></div>
+        <div class="id-card" style="--r:-2.5deg;--d:0s;aspect-ratio:1/1;"><img src="img/identidade-visual-silene-sampaio.png" alt="Identidade visual Silene Sampaio" loading="lazy" decoding="async"></div>
+        <div class="id-card" style="--r:2deg;--d:.12s;aspect-ratio:1/1;"><img src="img/identidade-visual-s-tio-beija-flor.png" alt="Identidade visual Sítio Beija-flor" loading="lazy" decoding="async"></div>
+        <div class="id-card" style="--r:-1deg;--d:.24s;aspect-ratio:1/1;grid-column:span 2;"><img src="img/identidade-visual-israel-mota.png" alt="Identidade visual Israel Mota" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </div>
@@ -531,55 +529,55 @@
     </div>
     <div class="ach-grid">
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#a15a5f;padding:0;overflow:hidden;"><img src="img/silene-sampaio.jpg" alt="Silene Sampaio" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#a15a5f;padding:0;overflow:hidden;"><img src="img/silene-sampaio.jpg" alt="Silene Sampaio" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Edição</div>
         <h4>Silene Sampaio</h4>
         <p>Mentora de mulheres divorciadas — edição de vídeos e conteúdo para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#0b3a34;padding:0;overflow:hidden;"><img src="img/iizu-caf.png" alt="Iizu Café" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#0b3a34;padding:0;overflow:hidden;"><img src="img/iizu-caf.png" alt="Iizu Café" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Social Media</div>
         <h4>Iizu Café</h4>
         <p>Cafeteria — social media / conteúdos para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#000;padding:0;overflow:hidden;"><img src="img/cl-nica-nepomuceno.png" alt="Clínica Nepomuceno" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#000;padding:0;overflow:hidden;"><img src="img/cl-nica-nepomuceno.png" alt="Clínica Nepomuceno" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Social Media</div>
         <h4>Clínica Nepomuceno</h4>
         <p>Clínica de estética — social media / conteúdos para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#8c7862;padding:0;overflow:hidden;"><img src="img/florada-caf.png" alt="Florada Café" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#8c7862;padding:0;overflow:hidden;"><img src="img/florada-caf.png" alt="Florada Café" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Social Media</div>
         <h4>Florada Café</h4>
         <p>Cafeteria — social media / conteúdos para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#3a0a0a;padding:0;overflow:hidden;"><img src="img/street-burguer.png" alt="Street Burguer" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#3a0a0a;padding:0;overflow:hidden;"><img src="img/street-burguer.png" alt="Street Burguer" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Tráfego Pago & Social Media</div>
         <h4>Street Burguer</h4>
         <p>Espetaria — tráfego pago para vendas e conteúdos para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#7a5230;padding:0;overflow:hidden;"><img src="img/luh-nascimento.jpg" alt="Luh Nascimento" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#7a5230;padding:0;overflow:hidden;"><img src="img/luh-nascimento.jpg" alt="Luh Nascimento" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Full Service</div>
         <h4>Luh Nascimento</h4>
         <p>Treinadora de fisiculturismo feminino — identidade visual, social media / conteúdos para redes sociais e tráfego pago.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#711f70;padding:0;overflow:hidden;"><img src="img/israel-mota.jpg" alt="Israel Mota" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#711f70;padding:0;overflow:hidden;"><img src="img/israel-mota.jpg" alt="Israel Mota" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Design & Social Media</div>
         <h4>Israel Mota</h4>
         <p>Professor de dança de salão — identidade visual e social media / conteúdos para redes sociais.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#3d0f0f;padding:0;overflow:hidden;"><img src="img/s-tio-beija-flor.png" alt="Sítio Beija-flor" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#3d0f0f;padding:0;overflow:hidden;"><img src="img/s-tio-beija-flor.png" alt="Sítio Beija-flor" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Design</div>
         <h4>Sítio Beija-flor</h4>
         <p>Identidade visual da marca.</p>
       </div>
       <div class="ach-card reveal">
-        <div class="ach-icon" style="background:#1c1c1c;padding:0;overflow:hidden;"><img src="img/veneza-team.png" alt="Veneza Team" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="ach-icon" style="background:#1c1c1c;padding:0;overflow:hidden;"><img src="img/veneza-team.png" alt="Veneza Team" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="ach-tag">Conquista · Design</div>
         <h4>Veneza Team</h4>
         <p>Identidade visual da marca.</p>
@@ -623,8 +621,42 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+  // Carrega Three.js só em telas grandes o suficiente pra mostrar a moeda 3D —
+  // evita baixar a lib inteira em mobile, onde a cena nem é renderizada.
+  if(window.innerWidth >= 861 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const threeScript = document.createElement('script');
+    threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    threeScript.onload = initHeroCoin;
+    document.body.appendChild(threeScript);
+  }
+</script>
+<script>
+  // ---------- REEL VIDEO (carrega e toca só perto da viewport) ----------
+  (function(){
+    const video = document.getElementById('reel-video');
+    if(!video) return;
+    let loaded = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if(en.isIntersecting){
+          if(!loaded){
+            const src = document.createElement('source');
+            src.src = video.dataset.src;
+            src.type = 'video/mp4';
+            video.appendChild(src);
+            video.load();
+            loaded = true;
+          }
+          video.play().catch(()=>{});
+        } else if(loaded){
+          video.pause();
+        }
+      });
+    }, {rootMargin:'400px 0px'});
+    io.observe(video);
+  })();
+
   // ---------- HERO STATS COUNT-UP (a cada hover) ----------
   (function(){
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -701,7 +733,7 @@
   })();
 
   // ---------- HERO COIN 3D (flip no scroll + tilt no cursor) ----------
-  (function(){
+  function initHeroCoin(){
     const container = document.getElementById('hero-blob');
     const header = document.getElementById('hero');
     if(!container || !window.THREE) return;
@@ -889,7 +921,7 @@
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     });
-  })();
+  }
 
   // ---------- XP BAR ----------
   const fill = document.getElementById('xpbar-fill');
