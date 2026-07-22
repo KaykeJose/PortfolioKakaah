@@ -9,18 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=JetBrains+Mono:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#FAF9F6;
-    --paper:#FFFFFF;
-    --ink:#151311;
-    --ink-dim:#5C564D;
-    --ink-faint:#9C9488;
-    --red:#B3241E;
-    --red-d:#8C1A16;
-    --purple:#4B2E83;
-    --green:#1C5C42;
-    --gold:#B3811F;
-    --line:rgba(21,19,17,0.12);
-    --line-strong:rgba(21,19,17,0.28);
+    --bg:#001621;
+    --paper:#052736;
+    --surface:#000C13;
+    --ink:#FFFFFF;
+    --ink-dim:#B7C6CD;
+    --ink-faint:#7E939C;
+    --red:#FF4103;
+    --red-d:#C93202;
+    --purple:#A98CE0;
+    --green:#4FC48A;
+    --gold:#F0B444;
+    --line:rgba(255,255,255,0.14);
+    --line-strong:rgba(255,255,255,0.30);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -35,7 +36,7 @@
   #xpbar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .15s linear;box-shadow:0 0 10px rgba(179,36,30,0.5);}
   #levelup-toast{
     position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-16px);
-    background:var(--ink);color:#fff;padding:12px 22px;border-radius:12px;
+    background:var(--surface);color:#fff;padding:12px 22px;border-radius:12px;border:1px solid var(--line);
     font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
     display:flex;align-items:center;gap:10px;z-index:299;opacity:0;pointer-events:none;
     transition:opacity .35s, transform .35s;box-shadow:0 10px 30px rgba(0,0,0,0.25);
@@ -44,7 +45,7 @@
   #levelup-toast .star{color:var(--gold);}
 
   /* ============ NAV ============ */
-  nav{position:fixed;top:5px;left:0;right:0;z-index:200;background:rgba(250,249,246,0.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+  nav{position:fixed;top:5px;left:0;right:0;z-index:200;background:rgba(0,22,33,0.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
   .logo{font-family:'Fraunces',serif;font-weight:600;font-size:19px;}
   .navlinks{display:flex;gap:32px;list-style:none;}
@@ -71,10 +72,18 @@
   #hero-blob canvas{display:block;}
   #coin-shadow{
     position:absolute;z-index:0;pointer-events:none;
-    right:6%;top:50%;width:min(30vw,340px);height:min(30vw,340px);
+    right:6%;top:50%;width:min(38vw,420px);height:min(38vw,420px);
     transform:translateY(-50%);
-    background:radial-gradient(closest-side, rgba(21,19,17,0.16), transparent 72%);
-    filter:blur(2px);
+    background:
+      radial-gradient(closest-side, rgba(255,90,36,0.38), transparent 55%),
+      radial-gradient(closest-side, rgba(240,180,68,0.22), transparent 68%),
+      radial-gradient(closest-side, rgba(10,53,71,0.55), transparent 80%);
+    filter:blur(6px);
+    animation:coinAura 4.5s ease-in-out infinite;
+  }
+  @keyframes coinAura{
+    0%,100%{opacity:.75;transform:translateY(-50%) scale(1);}
+    50%{opacity:1;transform:translateY(-50%) scale(1.08);}
   }
   @media(max-width:860px){ #coin-shadow{display:none;} }
   .hero-badge{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:999px;padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.5px;margin-bottom:26px;background:var(--paper);}
@@ -87,7 +96,7 @@
   .btn-primary{padding:16px 30px;border-radius:10px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:5px 5px 0 var(--ink);transition:transform .2s,box-shadow .2s;}
   .btn-primary:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink);}
   .btn-ghost{padding:16px 30px;border-radius:10px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;}
-  .btn-ghost:hover{background:var(--ink);color:#fff;}
+  .btn-ghost:hover{background:var(--red);color:#fff;border-color:var(--red);}
   .hero-stats{display:flex;gap:0;border-top:2px solid var(--ink);padding-top:24px;flex-wrap:wrap;}
   .hstat{flex:1;min-width:120px;padding-right:16px;}
   .hstat .num{font-family:'Fraunces',serif;font-size:32px;font-weight:600;position:relative;display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
@@ -101,6 +110,31 @@
   .hstat .label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
 
   /* ============ SOBRE ============ */
+  /* ============ REEL (making of) ============ */
+  #reel{
+    position:relative;min-height:82vh;display:flex;align-items:flex-end;
+    padding:0 0 90px;overflow:hidden;background:var(--surface);
+  }
+  .reel-video{position:absolute;inset:0;z-index:0;}
+  .reel-video video{
+    width:100%;height:100%;object-fit:cover;
+    filter:blur(3px) saturate(0.85) brightness(0.6);
+    transform:scale(1.06);
+  }
+  .reel-fade{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(0,12,19,0.35) 0%, rgba(0,12,19,0.55) 45%, var(--surface) 96%);
+  }
+  .reel-vignette{
+    position:absolute;inset:0;
+    background:radial-gradient(120% 90% at 18% 60%, transparent 0%, rgba(0,12,19,0.35) 45%, rgba(0,12,19,0.9) 100%);
+  }
+  .reel-content{position:relative;z-index:2;}
+  #reel .sec-title{color:#fff;}
+  #reel .eyebrow{color:var(--gold);}
+  #reel .eyebrow::before{background:var(--gold);}
+  @media(max-width:700px){ #reel{min-height:64vh;} }
+
   #sobre{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
   .sobre-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:60px;align-items:center;}
   .sobre-photo{aspect-ratio:1/1;border-radius:20px;border:2px solid var(--ink);background:linear-gradient(150deg,#f1ede3,#fff);display:flex;align-items:center;justify-content:center;box-shadow:8px 10px 0 var(--ink);}
@@ -113,7 +147,7 @@
   .fase-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
   .fase-grid.rev{direction:rtl;}
   .fase-grid.rev>*{direction:ltr;}
-  .fase-num{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:#fff;background:var(--ink);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;margin-bottom:18px;}
+  .fase-num{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:#fff;background:var(--surface);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;margin-bottom:18px;border:1px solid var(--line);}
   .fase-num .dot{width:7px;height:7px;border-radius:50%;}
   #fase1 .fase-num .dot{background:var(--red);}
   #fase2 .fase-num .dot{background:var(--purple);}
@@ -190,7 +224,7 @@
 
   /* ============ MOODBOARD CARDS (Fase 2) ============ */
   .id-card{
-    opacity:0;border-radius:10px;overflow:hidden;box-shadow:0 8px 18px rgba(21,19,17,0.16);
+    opacity:0;border-radius:10px;overflow:hidden;box-shadow:0 8px 18px rgba(0,0,0,0.35);
     transform:translateY(18px) rotate(var(--r,0deg)) scale(.95);
     transition:opacity .65s ease, transform .65s cubic-bezier(.22,.7,.3,1), box-shadow .3s;
     transition-delay:var(--d,0s);cursor:pointer;
@@ -198,7 +232,7 @@
   .reveal.in .id-card{opacity:1;transform:translateY(0) rotate(var(--r,0deg)) scale(1);}
   .id-card:hover{
     transform:translateY(-6px) rotate(0deg) scale(1.03) !important;
-    box-shadow:0 18px 32px rgba(21,19,17,0.24);z-index:2;position:relative;transition-delay:0s !important;
+    box-shadow:0 18px 32px rgba(0,0,0,0.45);z-index:2;position:relative;transition-delay:0s !important;
   }
   .id-card img{width:100%;height:100%;display:block;object-fit:cover;}
   @media(prefers-reduced-motion:reduce){
@@ -216,7 +250,7 @@
   .mockup-site .block.tall{height:60px;background:linear-gradient(135deg,var(--green),var(--purple));border-radius:6px;}
 
   /* ============ MARQUEE ============ */
-  .marquee-sec{padding:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink);overflow:hidden;}
+  .marquee-sec{padding:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);overflow:hidden;}
   .marquee-track{display:flex;width:max-content;animation:marquee 32s linear infinite;}
   .marquee-track:hover{animation-play-state:paused;}
   .marquee-item{display:flex;align-items:center;gap:14px;padding:22px 36px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#c9c4b8;}
@@ -226,15 +260,44 @@
   /* ============ CONQUISTAS ============ */
   #conquistas{background:var(--paper);border-top:1px solid var(--line);}
   .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  .ach-card{border:2px solid var(--ink);border-radius:14px;padding:24px;background:var(--bg);position:relative;transition:transform .25s;}
+  .ach-card{border:2px solid var(--line-strong);border-radius:14px;padding:24px;background:var(--paper);position:relative;transition:transform .25s;}
   .ach-card:hover{transform:translateY(-4px);}
-  .ach-icon{width:44px;height:44px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;}
+  .ach-icon{width:44px;height:44px;border-radius:10px;background:var(--surface);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;}
   .ach-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
   .ach-card h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:8px;}
   .ach-card p{font-size:13.5px;color:var(--ink-dim);line-height:1.6;}
 
   /* ============ CTA BOSS LEVEL ============ */
-  #cta{background:var(--ink);color:#fff;text-align:center;overflow:hidden;position:relative;}
+  #cta{background:var(--surface);color:#fff;text-align:center;overflow:hidden;position:relative;}
+
+  /* ============ LAPTOP 3D MOCKUP (CTA) ============ */
+  .laptop3d{perspective:1200px;width:min(360px,86vw);margin:0 auto 46px;}
+  .laptop3d-screen{
+    background:linear-gradient(160deg,#062736,#000c13);
+    border:1px solid var(--line-strong);
+    border-radius:14px 14px 3px 3px;
+    padding:18px 20px 22px;
+    text-align:left;
+    transform-style:preserve-3d;
+    transform:rotateX(20deg);
+    box-shadow:0 40px 70px rgba(0,0,0,0.55), 0 0 40px rgba(255,65,3,0.08);
+    animation:laptop3dFloat 5.5s ease-in-out infinite;
+  }
+  .laptop3d-bar{display:flex;gap:6px;margin-bottom:16px;}
+  .laptop3d-bar span{width:7px;height:7px;border-radius:50%;background:var(--line-strong);}
+  .laptop3d-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:10px;}
+  .laptop3d-title{font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:#fff;line-height:1.15;margin-bottom:16px;}
+  .laptop3d-cta{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:8px 16px;border-radius:8px;}
+  .laptop3d-base{
+    width:112%;margin-left:-6%;height:12px;
+    background:linear-gradient(180deg,#0a2a37,#000c13);
+    border-radius:0 0 8px 8px;
+    box-shadow:0 14px 24px rgba(0,0,0,0.45);
+  }
+  @keyframes laptop3dFloat{
+    0%,100%{transform:rotateX(20deg) translateY(0);}
+    50%{transform:rotateX(16deg) translateY(-10px);}
+  }
   #cta::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%, rgba(179,36,30,0.35), transparent 60%);}
   #cta .wrap{position:relative;z-index:2;}
   .boss-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8378;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;}
@@ -257,7 +320,7 @@
   #cta-note{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8378;}
   #cta-note.unlocked{color:var(--gold);}
 
-  footer{padding:44px 0;background:var(--ink);color:#c9c4b8;border-top:1px solid #2a2722;}
+  footer{padding:44px 0;background:var(--surface);color:#c9c4b8;border-top:1px solid var(--line);}
   footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   footer p{font-size:12px;font-family:'JetBrains Mono',monospace;}
   .footer-links{display:flex;gap:22px;list-style:none;}
@@ -321,7 +384,22 @@
   </div>
 </header>
 
-<section id="sobre" data-level="2" data-label="Nível 2 — Quem é Kayke">
+<section id="reel" data-level="2" data-label="Nível 2 — Making of">
+  <div class="reel-video">
+    <video autoplay muted loop playsinline poster="img/making-off-poster.jpg">
+      <source src="making-off.mp4" type="video/mp4">
+    </video>
+    <div class="reel-fade"></div>
+    <div class="reel-vignette"></div>
+  </div>
+  <div class="wrap reel-content">
+    <div class="eyebrow reveal">MAKING OF</div>
+    <h2 class="sec-title reveal">Cada projeto <em>começa assim.</em></h2>
+    <p class="sec-sub reveal" style="color:#dfe6e9;">Tela ligada, ideia rodando — o processo por trás de cada entrega, sem cortes bonitinhos.</p>
+  </div>
+</section>
+
+<section id="sobre" data-level="3" data-label="Nível 3 — Quem é Kayke">
   <div class="wrap sobre-grid">
     <div class="sobre-photo reveal" style="background:none;padding:0;overflow:hidden;border-color:var(--red);box-shadow:8px 10px 0 var(--red);"><img src="img/kayke-jos.jpg" alt="Kayke José" style="width:100%;height:100%;object-fit:cover;border-radius:18px;"></div>
     <div class="reveal">
@@ -355,7 +433,7 @@
   </div>
 </div>
 
-<section id="fase1" class="fase" data-level="3" data-label="Nível 3 — Fase 1: Edição de Vídeo">
+<section id="fase1" class="fase" data-level="4" data-label="Nível 4 — Fase 1: Edição de Vídeo">
   <div class="wrap fase-grid">
     <div class="reveal">
       <div class="fase-num"><span class="dot"></span>FASE 1 · EDIÇÃO DE VÍDEO</div>
@@ -390,7 +468,7 @@
   </div>
 </section>
 
-<section id="fase2" class="fase" data-level="4" data-label="Nível 4 — Fase 2: Design Gráfico">
+<section id="fase2" class="fase" data-level="5" data-label="Nível 5 — Fase 2: Design Gráfico">
   <div class="wrap fase-grid rev">
     <div class="reveal">
       <div class="fase-num"><span class="dot"></span>FASE 2 · DESIGN GRÁFICO</div>
@@ -414,7 +492,7 @@
   </div>
 </section>
 
-<section id="fase3" class="fase" data-level="5" data-label="Nível 5 — Fase 3: Sites & Identidade">
+<section id="fase3" class="fase" data-level="6" data-label="Nível 6 — Fase 3: Sites & Identidade">
   <div class="wrap fase-grid">
     <div class="reveal">
       <div class="fase-num"><span class="dot"></span>FASE 3 · SITES & IDENTIDADE VISUAL</div>
@@ -440,7 +518,7 @@
   </div>
 </section>
 
-<section id="conquistas" data-level="6" data-label="Nível 6 — Conquistas desbloqueadas">
+<section id="conquistas" data-level="7" data-label="Nível 7 — Conquistas desbloqueadas">
   <div class="wrap">
     <div class="reveal" style="margin-bottom:52px;">
       <div class="eyebrow">Prova social</div>
@@ -507,8 +585,19 @@
   </div>
 </section>
 
-<section id="cta" data-level="7" data-label="Nível 7 — Boss level desbloqueado">
+<section id="cta" data-level="8" data-label="Nível 8 — Boss level desbloqueado">
   <div class="wrap">
+    <div class="laptop3d reveal" aria-hidden="true">
+      <div class="laptop3d-screen">
+        <div class="laptop3d-bar"><span></span><span></span><span></span></div>
+        <div class="laptop3d-content">
+          <div class="laptop3d-badge">KAYKE JOSÉ · ERGON</div>
+          <div class="laptop3d-title">Edição, Design<br>&amp; Sites.</div>
+          <div class="laptop3d-cta">Ver projetos →</div>
+        </div>
+      </div>
+      <div class="laptop3d-base"></div>
+    </div>
     <h2 class="sec-title reveal">Você chegou ao fim.<br><em>Hora de conversar.</em></h2>
     <p class="sec-sub reveal">Role até 100% e o botão abaixo desbloqueia — igual a jornada que você acabou de fazer, seu projeto também tem um caminho claro até o resultado final.</p>
     <button id="cta-btn" disabled>
@@ -635,14 +724,14 @@
 
       function drawBase(){
         const grad = ctx.createRadialGradient(200,180,40, 256,256,260);
-        grad.addColorStop(0, '#c9342c');
-        grad.addColorStop(1, '#8c1a16');
+        grad.addColorStop(0, '#0a3547');
+        grad.addColorStop(1, '#001621');
         ctx.fillStyle = grad;
         ctx.beginPath(); ctx.arc(256,256,256,0,Math.PI*2); ctx.fill();
-        ctx.strokeStyle = '#E9C878';
+        ctx.strokeStyle = '#F0B444';
         ctx.lineWidth = 12;
         ctx.beginPath(); ctx.arc(256,256,236,0,Math.PI*2); ctx.stroke();
-        ctx.strokeStyle = 'rgba(140,26,22,0.35)';
+        ctx.strokeStyle = 'rgba(240,180,68,0.35)';
         ctx.lineWidth = 2;
         ctx.beginPath(); ctx.arc(256,256,204,0,Math.PI*2); ctx.stroke();
       }
@@ -714,9 +803,9 @@
 
     const RADIUS = 1.5, DEPTH = 0.22;
 
-    const sideMat = new THREE.MeshStandardMaterial({ color: 0x8c1a16, roughness: 0.3, metalness: 0.85 });
+    const sideMat = new THREE.MeshStandardMaterial({ color: 0x001621, roughness: 0.3, metalness: 0.85 });
     const faceMat = new THREE.MeshStandardMaterial({ map: makeFaceTexture(), roughness: 0.36, metalness: 0.22 });
-    const backMat = new THREE.MeshStandardMaterial({ color: 0x9c221d, roughness: 0.3, metalness: 0.88 });
+    const backMat = new THREE.MeshStandardMaterial({ color: 0x0a3547, roughness: 0.3, metalness: 0.88 });
 
     const body = new THREE.Mesh(
       new THREE.CylinderGeometry(RADIUS, RADIUS, DEPTH, 72, 1, false),
@@ -726,7 +815,7 @@
 
     const rim = new THREE.Mesh(
       new THREE.TorusGeometry(RADIUS, 0.05, 20, 96),
-      new THREE.MeshStandardMaterial({ color: 0xd9a63e, roughness: 0.22, metalness: 0.95 })
+      new THREE.MeshStandardMaterial({ color: 0xf0b444, roughness: 0.18, metalness: 0.95 })
     );
     rim.rotation.x = Math.PI / 2;
     coin.add(rim);
@@ -735,14 +824,17 @@
     coin.rotation.x = Math.PI / 2;
     coin.rotation.z = 0.18;
 
-    scene.add(new THREE.AmbientLight(0xfff3e0, 0.55));
+    scene.add(new THREE.AmbientLight(0x0a1c26, 0.55));
     const key = new THREE.PointLight(0xffffff, 1.3);
     key.position.set(4, 3.5, 5);
     scene.add(key);
-    const warm = new THREE.PointLight(0xb3811f, 0.9);
-    warm.position.set(-2.5, -1.5, 3);
+    const warm = new THREE.PointLight(0xff5a24, 1.1);
+    warm.position.set(1.5, 0.5, 2.5);
     scene.add(warm);
-    const rim2 = new THREE.PointLight(0xffffff, 0.5);
+    const goldGlow = new THREE.PointLight(0xf0b444, 0.7);
+    goldGlow.position.set(2.8, -1, 1.5);
+    scene.add(goldGlow);
+    const rim2 = new THREE.PointLight(0x0a3547, 0.8);
     rim2.position.set(0, -3, -3);
     scene.add(rim2);
 
