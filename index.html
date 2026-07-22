@@ -621,16 +621,7 @@
   </div>
 </footer>
 
-<script>
-  // Carrega Three.js só em telas grandes o suficiente pra mostrar a moeda 3D —
-  // evita baixar a lib inteira em mobile, onde a cena nem é renderizada.
-  if(window.innerWidth >= 861 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    const threeScript = document.createElement('script');
-    threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    threeScript.onload = function(){ initHeroCoin(); };
-    document.body.appendChild(threeScript);
-  }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   // ---------- REEL VIDEO (carrega e toca só perto da viewport) ----------
   (function(){
@@ -733,7 +724,7 @@
   })();
 
   // ---------- HERO COIN 3D (flip no scroll + tilt no cursor) ----------
-  function initHeroCoin(){
+  (function(){
     const container = document.getElementById('hero-blob');
     const header = document.getElementById('hero');
     if(!container || !window.THREE) return;
@@ -921,7 +912,7 @@
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     });
-  }
+  })();
 
   // ---------- XP BAR ----------
   const fill = document.getElementById('xpbar-fill');
