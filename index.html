@@ -76,9 +76,9 @@
     right:6%;top:50%;width:min(38vw,420px);height:min(38vw,420px);
     transform:translateY(-50%);
     background:
-      radial-gradient(closest-side, rgba(255,90,36,0.38), transparent 55%),
-      radial-gradient(closest-side, rgba(240,180,68,0.22), transparent 68%),
-      radial-gradient(closest-side, rgba(10,53,71,0.55), transparent 80%);
+      radial-gradient(closest-side, rgba(255,65,3,0.4), transparent 55%),
+      radial-gradient(closest-side, rgba(255,65,3,0.15), transparent 68%),
+      radial-gradient(closest-side, rgba(0,0,0,0.6), transparent 80%);
     filter:blur(6px);
     animation:coinAura 4.5s ease-in-out infinite;
   }
@@ -728,14 +728,14 @@
 
       function drawBase(){
         const grad = ctx.createRadialGradient(200,180,40, 256,256,260);
-        grad.addColorStop(0, '#0a3547');
-        grad.addColorStop(1, '#001621');
+        grad.addColorStop(0, '#2a2a2a');
+        grad.addColorStop(1, '#050505');
         ctx.fillStyle = grad;
         ctx.beginPath(); ctx.arc(256,256,256,0,Math.PI*2); ctx.fill();
-        ctx.strokeStyle = '#F0B444';
+        ctx.strokeStyle = '#FF4103';
         ctx.lineWidth = 12;
         ctx.beginPath(); ctx.arc(256,256,236,0,Math.PI*2); ctx.stroke();
-        ctx.strokeStyle = 'rgba(240,180,68,0.35)';
+        ctx.strokeStyle = 'rgba(255,65,3,0.4)';
         ctx.lineWidth = 2;
         ctx.beginPath(); ctx.arc(256,256,204,0,Math.PI*2); ctx.stroke();
       }
@@ -807,9 +807,9 @@
 
     const RADIUS = 1.5, DEPTH = 0.22;
 
-    const sideMat = new THREE.MeshStandardMaterial({ color: 0x001621, roughness: 0.3, metalness: 0.85 });
+    const sideMat = new THREE.MeshStandardMaterial({ color: 0x0d0d0d, roughness: 0.25, metalness: 0.9 });
     const faceMat = new THREE.MeshStandardMaterial({ map: makeFaceTexture(), roughness: 0.36, metalness: 0.22 });
-    const backMat = new THREE.MeshStandardMaterial({ color: 0x0a3547, roughness: 0.3, metalness: 0.88 });
+    const backMat = new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.25, metalness: 0.9 });
 
     const body = new THREE.Mesh(
       new THREE.CylinderGeometry(RADIUS, RADIUS, DEPTH, 72, 1, false),
@@ -819,7 +819,7 @@
 
     const rim = new THREE.Mesh(
       new THREE.TorusGeometry(RADIUS, 0.05, 20, 96),
-      new THREE.MeshStandardMaterial({ color: 0xf0b444, roughness: 0.18, metalness: 0.95 })
+      new THREE.MeshStandardMaterial({ color: 0xFF4103, roughness: 0.18, metalness: 0.95 })
     );
     rim.rotation.x = Math.PI / 2;
     coin.add(rim);
@@ -835,7 +835,7 @@
     const warm = new THREE.PointLight(0xff5a24, 1.1);
     warm.position.set(1.5, 0.5, 2.5);
     scene.add(warm);
-    const goldGlow = new THREE.PointLight(0xf0b444, 0.7);
+    const goldGlow = new THREE.PointLight(0xFF4103, 0.7);
     goldGlow.position.set(2.8, -1, 1.5);
     scene.add(goldGlow);
     const rim2 = new THREE.PointLight(0x0a3547, 0.8);
