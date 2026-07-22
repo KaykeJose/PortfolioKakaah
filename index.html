@@ -64,6 +64,7 @@
 
   /* ============ HERO ============ */
   header{min-height:100vh;display:flex;align-items:center;padding-top:110px;padding-bottom:60px;position:relative;overflow:hidden;}
+  header .wrap{width:100%;}
   #hero-blob{
     position:absolute;inset:0;z-index:1;pointer-events:none;
     -webkit-mask-image:linear-gradient(to right, transparent 0%, transparent 46%, rgba(0,0,0,.4) 58%, #000 72%, #000 100%);
@@ -119,6 +120,7 @@
   .reel-video video{
     position:absolute;top:0;right:0;
     width:44%;height:100%;object-fit:cover;object-position:center 26%;
+    filter:brightness(.6);
   }
   .reel-fade{
     position:absolute;top:0;right:0;width:44%;height:100%;
