@@ -112,28 +112,29 @@
   /* ============ SOBRE ============ */
   /* ============ REEL (making of) ============ */
   #reel{
-    position:relative;min-height:82vh;display:flex;align-items:flex-end;
-    padding:0 0 90px;overflow:hidden;background:var(--surface);
+    position:relative;overflow:hidden;background:var(--surface);
+    min-height:88vh;display:flex;align-items:center;
   }
   .reel-video{position:absolute;inset:0;z-index:0;}
   .reel-video video{
-    width:100%;height:100%;object-fit:cover;
-    filter:blur(3px) saturate(0.85) brightness(0.6);
-    transform:scale(1.06);
+    position:absolute;top:0;right:0;
+    width:44%;height:100%;object-fit:cover;object-position:center 26%;
   }
   .reel-fade{
-    position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(0,12,19,0.35) 0%, rgba(0,12,19,0.55) 45%, var(--surface) 96%);
+    position:absolute;top:0;right:0;width:44%;height:100%;
+    background:linear-gradient(90deg, var(--surface) 0%, transparent 26%);
   }
-  .reel-vignette{
-    position:absolute;inset:0;
-    background:radial-gradient(120% 90% at 18% 60%, transparent 0%, rgba(0,12,19,0.35) 45%, rgba(0,12,19,0.9) 100%);
-  }
-  .reel-content{position:relative;z-index:2;}
-  #reel .sec-title{color:#fff;}
-  #reel .eyebrow{color:var(--gold);}
+  #reel .wrap{width:100%;}
+  .reel-content{position:relative;z-index:2;max-width:600px;margin-right:auto;}
+  .reel-title{font-size:clamp(38px,5.6vw,66px);color:#fff;}
+  .reel-sub{font-size:19px;max-width:440px;color:#dfe6e9;}
+  #reel .eyebrow{color:var(--gold);font-size:13px;}
   #reel .eyebrow::before{background:var(--gold);}
-  @media(max-width:700px){ #reel{min-height:64vh;} }
+  @media(max-width:820px){
+    .reel-video video, .reel-fade{width:100%;opacity:.35;}
+    .reel-fade{background:linear-gradient(180deg, var(--surface) 0%, transparent 30%, var(--surface) 100%);}
+    #reel{min-height:70vh;}
+  }
 
   #sobre{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
   .sobre-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:60px;align-items:center;}
@@ -390,12 +391,13 @@
       <source src="making-off.mp4" type="video/mp4">
     </video>
     <div class="reel-fade"></div>
-    <div class="reel-vignette"></div>
   </div>
-  <div class="wrap reel-content">
-    <div class="eyebrow reveal">MAKING OF</div>
-    <h2 class="sec-title reveal">Cada projeto <em>começa assim.</em></h2>
-    <p class="sec-sub reveal" style="color:#dfe6e9;">Tela ligada, ideia rodando — o processo por trás de cada entrega, sem cortes bonitinhos.</p>
+  <div class="wrap">
+    <div class="reel-content">
+      <div class="eyebrow reveal">MAKING OF</div>
+      <h2 class="sec-title reel-title reveal">Cada projeto <em>começa assim.</em></h2>
+      <p class="sec-sub reel-sub reveal">Tela ligada, ideia rodando — o processo por trás de cada entrega, sem cortes bonitinhos.</p>
+    </div>
   </div>
 </section>
 
